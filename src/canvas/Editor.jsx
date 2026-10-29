@@ -12,6 +12,7 @@ import { registry } from './registry';
 const SHAPE_TOOLS = ['rect', 'ellipse', 'triangle', 'star', 'line'];
 const SNAP_PX = 6;
 const ACCENT = '#0d99ff';
+const TOOLBAR_SPACE = 64;
 
 export default function Editor() {
   const doc = useStore((s) => s.doc);
@@ -54,8 +55,9 @@ export default function Editor() {
     const { width, height } = useStore.getState().doc;
     if (cw < 50 || ch < 50) return;
     const pad = Math.min(96, cw * 0.1, ch * 0.1);
-    const scale = Math.max(0.02, Math.min((cw - pad) / width, (ch - pad) / height, 4));
-    useStore.getState().setView({ scale, x: (cw - width * scale) / 2, y: (ch - height * scale) / 2 });
+    const toolbar = ch > 300 ? TOOLBAR_SPACE : 0; // keep the card clear of the floating toolbar
+    const scale = Math.max(0.02, Math.min((cw - pad) / width, (ch - pad - toolbar) / height, 4));
+    useStore.getState().setView({ scale, x: (cw - width * scale) / 2, y: (ch - toolbar - height * scale) / 2 });
   }, []);
   useEffect(() => { fit(); }, [fitRequest, fit]);
 
