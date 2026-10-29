@@ -1,7 +1,8 @@
-const{contextBridge,ipcRenderer}=require('electron');
-contextBridge.exposeInMainWorld('electronAPI',{
-  savePng:(dataUrl,defaultName)=>ipcRenderer.invoke('save-png',{dataUrl,defaultName}),
-  saveEps:(epsContent,defaultName)=>ipcRenderer.invoke('save-eps',{epsContent,defaultName}),
-  showInFolder:fp=>ipcRenderer.invoke('show-in-folder',fp),
-  getVersion:()=>ipcRenderer.invoke('get-version'),
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  saveFile: (opts) => ipcRenderer.invoke('save-file', opts),
+  openFile: (opts) => ipcRenderer.invoke('open-file', opts),
+  showInFolder: (fp) => ipcRenderer.invoke('show-in-folder', fp),
+  getVersion: () => ipcRenderer.invoke('get-version'),
 });
